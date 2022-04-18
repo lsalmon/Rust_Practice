@@ -3,23 +3,23 @@ use std::convert::TryFrom;
 
 #[derive(Debug)]
 struct Bucket {
-    radix: u32,
-    elements: Vec<u32>
+    radix : u32,
+    elements : Vec<u32>
 }
  
 impl Bucket {
-    fn new(radix: u32) -> Self {
+    fn new(radix : u32) -> Self {
         Bucket {
             radix,
-            elements: Vec::new()
+            elements : Vec::new()
         }
     }
 
-    fn add(&mut self, element: u32) {
+    fn add(&mut self, element : u32) {
         self.elements.push(element);
     }
  
-    fn remove(&mut self, element: u32) {
+    fn remove(&mut self, element : u32) {
         if let Some(index) = self.elements.iter().position(|x| *x == element) {
             self.elements.remove(index);
         }
@@ -76,7 +76,7 @@ fn main() {
         let mut input = String::new();
         io::stdin().read_line(&mut input).expect("Failed to read line");
 
-        let input: u32 = match input.trim().parse() {
+        let input : u32 = match input.trim().parse() {
             Err(_) => { 
                 break;
             },
@@ -86,7 +86,7 @@ fn main() {
     }
 
     println!("{:?}", list);
-    //vec![170, 45, 75, 90, 2, 802, 2, 66];
+
     let mut max_value : u32 = *list.iter().max().unwrap();
     let max_exp = u32::try_from(get_digits(&mut max_value).len()).unwrap() + 1;
     let mut list_buckets : Vec<Bucket> = Vec::new();
@@ -111,7 +111,7 @@ fn main() {
     }
 
     // Flatten buckets into output vector
-    let mut sorted_list: Vec<u32> = Vec::new();
+    let mut sorted_list : Vec<u32> = Vec::new();
 
     for mut bucket in list_buckets.into_iter() {
         sorted_list.append(&mut bucket.elements);
