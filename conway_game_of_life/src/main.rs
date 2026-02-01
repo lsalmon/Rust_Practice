@@ -28,6 +28,7 @@ fn main() {
     }
     let display_frame_delay: f64 = 1.0;
     let mut display_frame: bool = true;
+    let mut run_automaton: bool = false;
 
     while !rl.window_should_close() {
         let mut x: i32;
@@ -57,12 +58,16 @@ fn main() {
         }
 
         let mut d = rl.begin_drawing(&thread);
-        d.clear_background(Color::WHITE);
+        //d.clear_background(Color::WHITE);
 
-        let run_automaton = d.is_key_down(KeyboardKey::KEY_SPACE);
+        if !run_automaton {
+            run_automaton = d.is_key_down(KeyboardKey::KEY_SPACE);
+        }
 
         // Temp grid to borrow in the loop
         let mut next_grid = grid;
+
+        let mut grid_updated : bool = false;
 
         for (i, row) in next_grid.iter_mut().enumerate() {
             for (j, col) in row.iter_mut().enumerate() {
@@ -102,6 +107,17 @@ fn main() {
 
                 d.draw_rectangle(x, y, width, height, c);
             }
+        }
+
+        if run_automaton && display_frame {
+            grid_updated = true;
+        }
+
+        if grid_updated {
+            if run_automaton {
+                run_automaton = false;
+            }
+            grid_updated = false;
         }
 
         grid = next_grid;
